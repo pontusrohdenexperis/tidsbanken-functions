@@ -4,7 +4,6 @@ import com.microsoft.azure.functions.HttpMethod;
 import com.microsoft.azure.functions.HttpRequestMessage;
 import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.BindingName;
-import com.microsoft.azure.functions.annotation.CosmosDBInput;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
@@ -19,13 +18,7 @@ public class GetUser{
                 route = "user"
                 ) 
                 HttpRequestMessage<Optional<String>> request,
-                @BindingName("id") int id,
-        @CosmosDBInput(name = "database",
-                databaseName = "Tidsbanken",
-                collectionName = "users",
-                sqlQuery = "select * from users u where u.id = {id}",
-                connectionStringSetting = "CosmosDbConnectionString") 
-        Optional<String> item){
-            return item.orElse("Not found");
+                @BindingName("id") int id){
+            return "this finally works!";
     }
 }
