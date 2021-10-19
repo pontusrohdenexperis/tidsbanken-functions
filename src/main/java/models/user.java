@@ -9,13 +9,15 @@ public class User{
     private String lastname;
     private String profilePic;
     private boolean isAdmin;
-    
-    public User(int userId, String firstname, String lastname, String profilePic, boolean isAdmin) {
+    private String email;
+
+    public User(int userId, String firstname, String lastname, String profilePic, boolean isAdmin, String email) {
         this.userId = userId;
         this.firstname = firstname;
         this.lastname = lastname;
         this.profilePic = profilePic;
         this.isAdmin = isAdmin;
+        this.email = email;
     }
     public String getFirstname() {
         return firstname;
@@ -46,5 +48,11 @@ public class User{
     }
     public void setAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

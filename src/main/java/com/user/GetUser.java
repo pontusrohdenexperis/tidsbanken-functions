@@ -48,7 +48,8 @@ public class GetUser {
                             resultSet.getString("firstname"),
                             resultSet.getString("lastname"),
                             resultSet.getString("profile_pic"),
-                            resultSet.getBoolean("is_admin")
+                            resultSet.getBoolean("is_admin"),
+                            resultSet.getString("email")
                         );
                     }
                 }catch(Exception e) {

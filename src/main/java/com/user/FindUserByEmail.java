@@ -7,51 +7,47 @@ import com.microsoft.azure.functions.annotation.BindingName;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
+import models.User;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 /**
- * Used to fetch a user from the db, based in id.
+ * Used to check if a user exists when logging in to the site.
+ * Checks by email.
  */
-public class PostUser {
-    @FunctionName("postUser")
-    public String postUser(
+public class FindUserByEmail {
+    @FunctionName("findUserByEmail")
+    public boolean findUser(
         @HttpTrigger(name = "req",
-                methods = {HttpMethod.POST},
+                methods = {HttpMethod.GET},
                 authLevel = AuthorizationLevel.ANONYMOUS,
-                route = "user") HttpRequestMessage<Optional<String>> request,
-                @BindingName("firstname") String firstname,
-                @BindingName("lastname") String lastname,
-                @BindingName("profilePic") String profilePic,
-                @BindingName("isAdmin") Boolean isAdmin,
+                route = "findUser") HttpRequestMessage<Optional<String>> request,
                 @BindingName("email") String email
-                //@BindingName("userPassword") int userPassword
-                ){
+                ) throws SQLException{
                     String Url = "jdbc:sqlserver://tidsbankenserver.database.windows.net:1433;DatabaseName=tidsbankenpostgres;";
                     String username = "tidsbanken";
                     String password = "Experisgbg1337";
                 Connection conn = null;
-                String message = "";
+                boolean userFound = false;
                 try{
                     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                     conn = DriverManager.getConnection(Url, username, password);
                     if(conn != null) {
                         System.out.println("Connection Successful!");
                     }
-                    PreparedStatement preparedStatement = conn.prepareStatement(
-                        "INSERT INTO users (lastname, firstname, profile_pic, is_admin, email)"+
-                        "VALUES(?,?,?,?,?)");
-                    preparedStatement.setString(1, lastname);
-                    preparedStatement.setString(2, firstname);
-                    preparedStatement.setString(3, profilePic);
-                    preparedStatement.setBoolean(4, isAdmin);
-                    preparedStatement.setString(5, email);
-                    //preparedStatement.setInt(6, userPassword);
-                    preparedStatement.executeQuery();
-                    message = "User successfully added";
-                    
+                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT email FROM users WHERE email = ?");
+                    preparedStatement.setString(1, email);
+                    ResultSet resultSet =  preparedStatement.executeQuery();
+                    if(resultSet.next()) {
+                        userFound = true;
+                    }
+
+
                 }catch(Exception e) {
                     e.printStackTrace();
                     System.out.println("Error Trace in getConnection() : " + e.getMessage());
@@ -63,9 +59,7 @@ public class PostUser {
                         System.out.println(e.toString());    
                     }
                 }
-                
-                return message;
-            }                       
+                return userFound;
+               
+                }                       
 }
-        
-    
