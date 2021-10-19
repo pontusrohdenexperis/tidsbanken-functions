@@ -22,11 +22,11 @@ public class PostUser {
                 methods = {HttpMethod.POST},
                 authLevel = AuthorizationLevel.ANONYMOUS,
                 route = "user") HttpRequestMessage<Optional<String>> request,
+                @BindingName("email") String email,
                 @BindingName("firstname") String firstname,
                 @BindingName("lastname") String lastname,
                 @BindingName("profilePic") String profilePic,
-                @BindingName("isAdmin") Boolean isAdmin,
-                @BindingName("email") String email
+                @BindingName("isAdmin") Boolean isAdmin
                 //@BindingName("userPassword") int userPassword
                 ){
                     String Url = "jdbc:sqlserver://tidsbankenserver.database.windows.net:1433;DatabaseName=tidsbankenpostgres;";
@@ -41,13 +41,13 @@ public class PostUser {
                         System.out.println("Connection Successful!");
                     }
                     PreparedStatement preparedStatement = conn.prepareStatement(
-                        "INSERT INTO users (lastname, firstname, profile_pic, is_admin, email)"+
+                        "INSERT INTO users (email, firstname, lastname, profile_pic, is_admin)"+
                         "VALUES(?,?,?,?,?)");
-                    preparedStatement.setString(1, lastname);
+                    preparedStatement.setString(1, email);
                     preparedStatement.setString(2, firstname);
-                    preparedStatement.setString(3, profilePic);
-                    preparedStatement.setBoolean(4, isAdmin);
-                    preparedStatement.setString(5, email);
+                    preparedStatement.setString(3, lastname);
+                    preparedStatement.setString(4, profilePic);
+                    preparedStatement.setBoolean(5, isAdmin);
                     //preparedStatement.setInt(6, userPassword);
                     preparedStatement.executeQuery();
                     message = "User successfully added";

@@ -25,7 +25,7 @@ public class GetUser {
                 methods = {HttpMethod.GET},
                 authLevel = AuthorizationLevel.ANONYMOUS,
                 route = "user") HttpRequestMessage<Optional<String>> request,
-                @BindingName("id") int id
+                @BindingName("email") String email
                 ){
                     String Url = "jdbc:sqlserver://tidsbankenserver.database.windows.net:1433;DatabaseName=tidsbankenpostgres;";
                     String username = "tidsbanken";
@@ -38,18 +38,17 @@ public class GetUser {
                     if(conn != null) {
                         System.out.println("Connection Successful!");
                     }
-                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE id = ?");
-                    preparedStatement.setInt(1, id);
+                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE email = ?");
+                    preparedStatement.setString(1, email);
                     ResultSet resultSet = preparedStatement.executeQuery();
                     
                     while(resultSet.next()){
                         user = new User(
-                            resultSet.getInt("id"),
+                            resultSet.getString("email"),
                             resultSet.getString("firstname"),
                             resultSet.getString("lastname"),
                             resultSet.getString("profile_pic"),
-                            resultSet.getBoolean("is_admin"),
-                            resultSet.getString("email")
+                            resultSet.getBoolean("is_admin")
                         );
                     }
                 }catch(Exception e) {

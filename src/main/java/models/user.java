@@ -3,20 +3,24 @@ package models;
 //import com.vacationRequests.VacationRequests;
 
 public class User{
-
-    private int userId;
+    
+    private String email;
     private String firstname;
     private String lastname;
     private String profilePic;
     private boolean isAdmin;
-    private String email;
-
-    public User(int userId, String firstname, String lastname, String profilePic, boolean isAdmin, String email) {
-        this.userId = userId;
+    
+    public User( String email, String firstname, String lastname, String profilePic, boolean isAdmin) {
+        this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
         this.profilePic = profilePic;
         this.isAdmin = isAdmin;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
         this.email = email;
     }
     public String getFirstname() {
@@ -31,12 +35,6 @@ public class User{
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
-    public int getUserId() {
-        return userId;
-    }
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
     public String getProfilePic() {
         return profilePic;
     }
@@ -48,11 +46,5 @@ public class User{
     }
     public void setAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
     }
 }
