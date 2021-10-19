@@ -4,17 +4,25 @@ import java.util.Date;
 
 public class VacationRequest {
     
-    private String id;
-    private String title;
+    private int id;
     private Date periodStart;
     private Date periodEnd;
-    private String requestStatus;
-    private Comment[] comments;
+    private String title;
+    private int requestStatus;
+    private String ownerEmail;
     
-    public String getId() {
+    public VacationRequest(int id,Date periodStart, Date periodEnd, String title, int requestStatus, String ownerEmail) {
+        this.id = id;
+        this.periodStart = periodStart;
+        this.periodEnd = periodEnd;
+        this.title = title;
+        this.requestStatus = requestStatus;
+        this.ownerEmail = ownerEmail;
+    }
+    public int getId() {
         return id;
     }
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     public String getTitle() {
@@ -35,17 +43,17 @@ public class VacationRequest {
     public void setPeriodEnd(Date periodEnd) {
         this.periodEnd = periodEnd;
     }
-    public String getRequestStatus() {
-        return requestStatus;
-    }
-    public void setRequestStatus(String requestStatus) {
+    public void setRequestStatus(int requestStatus) {
         this.requestStatus = requestStatus;
     }
-    public Comment[] getComments() {
-        return comments;
+    public int getRequestStatus(){
+        return requestStatus;
     }
-    public void setComments(Comment[] comments) {
-        this.comments = comments;
+    public String getOwnerEmail() {
+        return ownerEmail;
+    }
+    public void setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
     }
     
 }
