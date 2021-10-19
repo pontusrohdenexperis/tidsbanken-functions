@@ -3,10 +3,9 @@ package com;
 import com.microsoft.azure.functions.HttpMethod;
 import com.microsoft.azure.functions.HttpRequestMessage;
 import com.microsoft.azure.functions.annotation.AuthorizationLevel;
+import com.microsoft.azure.functions.annotation.BindingName;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
-
-import models.user;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,6 +23,7 @@ public class Test {
                 authLevel = AuthorizationLevel.ANONYMOUS,
                 route = "test"
                 ) 
+                @BindingName("id") int id,
                 HttpRequestMessage<Optional<String>> request){
                     String Url = "jdbc:sqlserver://tidsbankenserver.database.windows.net:1433;DatabaseName=tidsbankenpostgres;";
                     String username = "tidsbanken";
