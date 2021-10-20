@@ -41,8 +41,8 @@ public class PostUser {
                         System.out.println("Connection Successful!");
                     }
                     PreparedStatement preparedStatement = conn.prepareStatement(
-                        "INSERT INTO users (email, firstname, lastname, profile_pic, is_admin)"+
-                        "VALUES(?,?,?,?,?)");
+                        "INSERT INTO users (email, firstname, lastname, profile_pic, is_admin, is_deleted)"+
+                        "VALUES(?,?,?,?,?, 0)");
                     preparedStatement.setString(1, email);
                     preparedStatement.setString(2, firstname);
                     preparedStatement.setString(3, lastname);
