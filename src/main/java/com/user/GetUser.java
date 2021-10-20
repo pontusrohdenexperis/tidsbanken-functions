@@ -3,6 +3,7 @@ package com.user;
 import com.microsoft.azure.functions.HttpMethod;
 import com.microsoft.azure.functions.HttpRequestMessage;
 import com.microsoft.azure.functions.annotation.AuthorizationLevel;
+import com.microsoft.azure.functions.annotation.BindingName;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
@@ -23,9 +24,10 @@ public class GetUser {
         @HttpTrigger(name = "req",
                 methods = {HttpMethod.GET},
                 authLevel = AuthorizationLevel.ANONYMOUS,
-                route = "user") HttpRequestMessage<Optional<String>> request
+                route = "user/{email}") HttpRequestMessage<Optional<String>> request,
+                @BindingName("email") String email
                 ){
-                    String email = request.getQueryParameters().getOrDefault("email", "");
+                    //String email = request.getQueryParameters().getOrDefault("email", "");
                     String Url = "jdbc:sqlserver://tidsbankenserver.database.windows.net:1433;DatabaseName=tidsbankenpostgres;";
                     String username = "tidsbanken";
                     String password = "Experisgbg1337";

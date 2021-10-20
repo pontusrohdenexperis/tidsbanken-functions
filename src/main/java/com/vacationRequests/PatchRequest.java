@@ -1,4 +1,4 @@
-package com;
+package com.vacationRequests;
 
 import com.microsoft.azure.functions.HttpMethod;
 import com.microsoft.azure.functions.HttpRequestMessage;
@@ -8,42 +8,52 @@ import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.Optional;
 
-
-public class Test {
-    @FunctionName("test")
-    public String getUser(
+/**
+ * Used to fetch a user from the db, based in id.
+ */
+public class PatchRequest {
+    @FunctionName("patchRequest")
+    public String patchRequest(
         @HttpTrigger(name = "req",
-                methods = {HttpMethod.GET},
+                methods = {HttpMethod.OPTIONS},
                 authLevel = AuthorizationLevel.ANONYMOUS,
-                route = "test"
-                ) 
-                @BindingName("id") int id,
-                HttpRequestMessage<Optional<String>> request){
+                route = "request") HttpRequestMessage<Optional<String>> request,
+                @BindingName("periodStart") Timestamp periodStart,
+                @BindingName("periodEnd") Timestamp periodEnd,
+                @BindingName("title") String title,
+                @BindingName("requestStatus") int requestStatus,
+                @BindingName("ownerEmail") String ownerEmail
+                //@BindingName("userPassword") int userPassword
+                ){
                     String Url = "jdbc:sqlserver://tidsbankenserver.database.windows.net:1433;DatabaseName=tidsbankenpostgres;";
                     String username = "tidsbanken";
                     String password = "Experisgbg1337";
                 Connection conn = null;
-                ArrayList<String> list = new ArrayList<>();
+                String message = "";
+                
                 try{
                     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                     conn = DriverManager.getConnection(Url, username, password);
                     if(conn != null) {
                         System.out.println("Connection Successful!");
                     }
-                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users");
-                    ResultSet resultSet = preparedStatement.executeQuery();
+                    PreparedStatement preparedStatement = conn.prepareStatement(
+                        "UPDATE vacation_requests " +
+                        "SET period_end = ?, period_start = ?, title = ?, request_status = ? "+
+                        "WHERE owner_email = ?");
+                    preparedStatement.setTimestamp(1, periodStart);
+                    preparedStatement.setTimestamp(2, periodEnd);
+                    preparedStatement.setString(3, title);
+                    preparedStatement.setInt(4, requestStatus);
+                    preparedStatement.setString(5, ownerEmail);
+                    preparedStatement.executeQuery();
+                    message = "Request successfully updated!";
                     
-                    while(resultSet.next()) {
-                        list.add(
-                                resultSet.getString("firstname")
-                        );
-                    }
                 }catch(Exception e) {
                     e.printStackTrace();
                     System.out.println("Error Trace in getConnection() : " + e.getMessage());
@@ -55,7 +65,7 @@ public class Test {
                         System.out.println(e.toString());    
                     }
                 }
-                return list.get(0);
-               
-                }                       
+                
+                return message;
+            }                       
 }

@@ -24,7 +24,7 @@ public class GetRequest {
         @HttpTrigger(name = "req",
                 methods = {HttpMethod.GET},
                 authLevel = AuthorizationLevel.ANONYMOUS,
-                route = "Request") HttpRequestMessage<Optional<String>> request,
+                route = "request/{id}") HttpRequestMessage<Optional<String>> request,
                 @BindingName("id") String id
                 ){
                     String Url = "jdbc:sqlserver://tidsbankenserver.database.windows.net:1433;DatabaseName=tidsbankenpostgres;";
@@ -38,6 +38,11 @@ public class GetRequest {
                     if(conn != null) {
                         System.out.println("Connection Successful!");
                     }
+                    /**
+                     * if(user) {
+                     *  get approved requests and my requests}
+                     */
+
                     PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM vacation_requests WHERE id = ?");
                     preparedStatement.setString(1, id);
                     ResultSet resultSet = preparedStatement.executeQuery();
