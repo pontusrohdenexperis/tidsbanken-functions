@@ -1,4 +1,4 @@
-package com.vacationRequests;
+package com.comment;
 
 import com.microsoft.azure.functions.HttpMethod;
 import com.microsoft.azure.functions.HttpRequestMessage;
@@ -16,25 +16,24 @@ import java.util.Optional;
 /**
  * Used to fetch a user from the db, based in id.
  */
-public class PostRequest {
-    @FunctionName("postRequest")
-    public String postRequest(
+public class PostComment {
+    @FunctionName("postComment")
+    public String postComment(
         @HttpTrigger(name = "req",
                 methods = {HttpMethod.POST},
                 authLevel = AuthorizationLevel.ANONYMOUS,
-                route = "request") HttpRequestMessage<Optional<String>> request,
-                @BindingName("periodStart") Timestamp periodStart,
-                @BindingName("periodEnd") Timestamp periodEnd,
-                @BindingName("title") String title,
-                @BindingName("requestStatus") int requestStatus,
-                @BindingName("ownerEmail") String ownerEmail
+                route = "request/{id}/comment") HttpRequestMessage<Optional<String>> request,
+                @BindingName("message") String message,
+                @BindingName("timestamp") Timestamp timestamp,
+                @BindingName("userEmail") String userEmail,
+                @BindingName("id") int id
                 //@BindingName("userPassword") int userPassword
                 ){
                     String Url = "jdbc:sqlserver://tidsbankenserver.database.windows.net:1433;DatabaseName=tidsbankenpostgres;";
                     String username = "tidsbanken";
                     String password = "Experisgbg1337";
                 Connection conn = null;
-                String message = "";
+                String returnMessage = "";
                 
                 try{
                     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -43,15 +42,14 @@ public class PostRequest {
                         System.out.println("Connection Successful!");
                     }
                     PreparedStatement preparedStatement = conn.prepareStatement(
-                        "INSERT INTO vacation_requests (period_end, period_start, title, request_status, owner_email, is_deleted)"+
-                        "VALUES(?,?,?,?,?, 0)");
-                    preparedStatement.setTimestamp(1, periodStart);
-                    preparedStatement.setTimestamp(2, periodEnd);
-                    preparedStatement.setString(3, title);
-                    preparedStatement.setInt(4, requestStatus);
-                    preparedStatement.setString(5, ownerEmail);
+                        "INSERT INTO comments (user_email, request_id, timestamp, message)"+
+                        "VALUES(?,?,?,?)");
+                        preparedStatement.setString(1, userEmail);
+                        preparedStatement.setInt(2, id);
+                        preparedStatement.setTimestamp(3, timestamp);
+                        preparedStatement.setString(4, message);
                     preparedStatement.executeQuery();
-                    message = "Request successfully added";
+                    returnMessage = "Request successfully added";
                     
                 }catch(Exception e) {
                     e.printStackTrace();
@@ -65,8 +63,6 @@ public class PostRequest {
                     }
                 }
                 
-                return message;
+                return returnMessage;
             }                       
 }
-        
-    

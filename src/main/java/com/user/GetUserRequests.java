@@ -22,7 +22,7 @@ import java.util.Optional;
  */
 public class GetUserRequests {
     @FunctionName("getUserRequests")
-    public List<VacationRequest> getUser(
+    public List<VacationRequest> getUserRequests(
         @HttpTrigger(name = "req",
                 methods = {HttpMethod.GET},
                 authLevel = AuthorizationLevel.ANONYMOUS,

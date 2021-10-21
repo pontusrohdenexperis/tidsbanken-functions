@@ -1,4 +1,5 @@
-package com.vacationRequests;
+package com.comment;
+
 
 import com.microsoft.azure.functions.HttpMethod;
 import com.microsoft.azure.functions.HttpRequestMessage;
@@ -16,25 +17,26 @@ import java.util.Optional;
 /**
  * Used to fetch a user from the db, based in id.
  */
-public class PostRequest {
-    @FunctionName("postRequest")
-    public String postRequest(
+public class PatchComment {
+    @FunctionName("patchComment")
+    public String patchComment(
         @HttpTrigger(name = "req",
-                methods = {HttpMethod.POST},
+                methods = {HttpMethod.OPTIONS},
                 authLevel = AuthorizationLevel.ANONYMOUS,
-                route = "request") HttpRequestMessage<Optional<String>> request,
-                @BindingName("periodStart") Timestamp periodStart,
-                @BindingName("periodEnd") Timestamp periodEnd,
-                @BindingName("title") String title,
-                @BindingName("requestStatus") int requestStatus,
-                @BindingName("ownerEmail") String ownerEmail
+                route = "request/{requestId}/comment/{commentId}") 
+                HttpRequestMessage<Optional<String>> request,
+                @BindingName("requestId") int requestId,
+                @BindingName("commentId") int commentId,
+                @BindingName("userEmail") String userEmail,
+                @BindingName("timestamp") Timestamp timestamp,
+                @BindingName("message") String message
                 //@BindingName("userPassword") int userPassword
                 ){
                     String Url = "jdbc:sqlserver://tidsbankenserver.database.windows.net:1433;DatabaseName=tidsbankenpostgres;";
                     String username = "tidsbanken";
                     String password = "Experisgbg1337";
                 Connection conn = null;
-                String message = "";
+                String returnMessage = "";
                 
                 try{
                     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -43,15 +45,16 @@ public class PostRequest {
                         System.out.println("Connection Successful!");
                     }
                     PreparedStatement preparedStatement = conn.prepareStatement(
-                        "INSERT INTO vacation_requests (period_end, period_start, title, request_status, owner_email, is_deleted)"+
-                        "VALUES(?,?,?,?,?, 0)");
-                    preparedStatement.setTimestamp(1, periodStart);
-                    preparedStatement.setTimestamp(2, periodEnd);
-                    preparedStatement.setString(3, title);
-                    preparedStatement.setInt(4, requestStatus);
-                    preparedStatement.setString(5, ownerEmail);
+                        "UPDATE comments " +
+                        "SET user_email = ?, timestamp = ?, message = ? "+
+                        "WHERE request_id = ? AND id = ?");
+                    preparedStatement.setString(1, userEmail);
+                    preparedStatement.setTimestamp(2, timestamp);
+                    preparedStatement.setString(3, message);
+                    preparedStatement.setInt(4, requestId);
+                    preparedStatement.setInt(5, commentId);
                     preparedStatement.executeQuery();
-                    message = "Request successfully added";
+                    message = "Request successfully updated!";
                     
                 }catch(Exception e) {
                     e.printStackTrace();
@@ -65,8 +68,6 @@ public class PostRequest {
                     }
                 }
                 
-                return message;
+                return returnMessage;
             }                       
 }
-        
-    

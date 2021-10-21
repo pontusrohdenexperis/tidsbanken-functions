@@ -43,7 +43,7 @@ public class GetRequest {
                      *  get approved requests and my requests}
                      */
 
-                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM vacation_requests WHERE id = ?");
+                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM vacation_requests WHERE id = ? AND is_deleted = 0");
                     preparedStatement.setString(1, id);
                     ResultSet resultSet = preparedStatement.executeQuery();
                     
