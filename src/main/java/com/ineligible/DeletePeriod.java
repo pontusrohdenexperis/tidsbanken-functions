@@ -32,7 +32,7 @@ public class DeletePeriod {
                     if(conn != null) {
                         System.out.println("Connection Successful!");
                     }
-                    PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM ineligible_period WHERE id = ?");
+                    PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM IneligiblePeriod WHERE id = ?");
                     preparedStatement.setInt(1, id);
                     preparedStatement.executeQuery();
                     message = "Request successfully deleted";

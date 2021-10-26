@@ -1,11 +1,14 @@
 package com.user;
 
+import com.authentication.AuthenticationInfo;
 import com.microsoft.azure.functions.HttpMethod;
 import com.microsoft.azure.functions.HttpRequestMessage;
 import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.BindingName;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
+
+import org.json.simple.parser.ParseException;
 
 import models.User;
 
@@ -26,20 +29,29 @@ public class GetUser {
                 authLevel = AuthorizationLevel.ANONYMOUS,
                 route = "user/{email}") HttpRequestMessage<Optional<String>> request,
                 @BindingName("email") String email
-                ){
+                ) throws ParseException{
                     //String email = request.getQueryParameters().getOrDefault("email", "");
                     String Url = "jdbc:sqlserver://tidsbankenserver.database.windows.net:1433;DatabaseName=tidsbankenpostgres;";
                     String username = "tidsbanken";
                     String password = "Experisgbg1337";
                 Connection conn = null;
                 User user = null;
+                AuthenticationInfo auth = new AuthenticationInfo(request);
+
+                if(auth.isValid()) {
+                    System.out.println(auth.getEmail());
+                    System.out.println(auth.isAdmin());
+                }else{
+                    System.out.println("Not valid!");
+                }
+                
                 try{
                     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                     conn = DriverManager.getConnection(Url, username, password);
                     if(conn != null) {
                         System.out.println("Connection Successful!");
                     }
-                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE email = ?");
+                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Users WHERE email = ?");
                     preparedStatement.setString(1, email);
                     ResultSet resultSet = preparedStatement.executeQuery();
                     

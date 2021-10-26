@@ -43,7 +43,7 @@ public class GetRequest {
                      *  get approved requests and my requests}
                      */
 
-                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM vacation_requests WHERE id = ? AND is_deleted = 0");
+                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM VacationRequest WHERE id = ?");
                     preparedStatement.setString(1, id);
                     ResultSet resultSet = preparedStatement.executeQuery();
                     
@@ -53,8 +53,9 @@ public class GetRequest {
                             resultSet.getDate("period_start"),
                             resultSet.getDate("period_end"),
                             resultSet.getString("title"),
-                            resultSet.getInt("status_id"),
-                            resultSet.getString("owner_email")
+                            resultSet.getString("owner_email"),
+                            resultSet.getInt("request_status"),
+                            resultSet.getString("moderator_email")
                         );
                     }
                 }catch(Exception e) {

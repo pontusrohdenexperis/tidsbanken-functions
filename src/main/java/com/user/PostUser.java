@@ -7,6 +7,7 @@ import com.microsoft.azure.functions.annotation.BindingName;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -34,6 +35,7 @@ public class PostUser {
                     String password = "Experisgbg1337";
                 Connection conn = null;
                 String message = "";
+                byte[] varBinary = profilePic.getBytes(StandardCharsets.UTF_8);
                 try{
                     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                     conn = DriverManager.getConnection(Url, username, password);
@@ -41,12 +43,12 @@ public class PostUser {
                         System.out.println("Connection Successful!");
                     }
                     PreparedStatement preparedStatement = conn.prepareStatement(
-                        "INSERT INTO users (email, firstname, lastname, profile_pic, is_admin, is_deleted)"+
-                        "VALUES(?,?,?,?,?, 0)");
+                        "INSERT INTO Users (email, firstname, lastname, profile_pic, is_admin)"+
+                        "VALUES(?,?,?,?,?)");
                     preparedStatement.setString(1, email);
                     preparedStatement.setString(2, firstname);
                     preparedStatement.setString(3, lastname);
-                    preparedStatement.setString(4, profilePic);
+                    preparedStatement.setBytes(4, varBinary);
                     preparedStatement.setBoolean(5, isAdmin);
                     //preparedStatement.setInt(6, userPassword);
                     preparedStatement.executeQuery();

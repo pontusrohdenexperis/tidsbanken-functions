@@ -8,10 +8,12 @@ public class VacationRequest {
     private Date periodStart;
     private Date periodEnd;
     private String title;
-    private int requestStatus;
     private String ownerEmail;
+    private int requestStatus;
+    private String moderatorEmail;
+
     
-    public VacationRequest(int id,Date periodStart, Date periodEnd, String title, int requestStatus, String ownerEmail) {
+    public VacationRequest(int id,Date periodStart, Date periodEnd, String title, String ownerEmail, int requestStatus, String moderatorEmail) {
         this.id = id;
         this.periodStart = periodStart;
         this.periodEnd = periodEnd;
@@ -54,6 +56,12 @@ public class VacationRequest {
     }
     public void setOwnerEmail(String ownerEmail) {
         this.ownerEmail = ownerEmail;
+    }
+    public String getModeratorEmail() {
+        return moderatorEmail;
+    }
+    public void setModeratorEmail(String moderatorEmail) {
+        this.moderatorEmail = moderatorEmail;
     }
     
 }

@@ -33,7 +33,7 @@ public class DeleteComment {
                         if(conn != null) {
                             System.out.println("Connection Successful!");
                         }
-                        PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM comments WHERE request_id = ? AND id = ?");
+                        PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM Commentselect * from commentsselect * from comments WHERE request_id = ? AND id = ?");
                         preparedStatement.setInt(1, requestId);
                         preparedStatement.setInt(2, commentId);
                         preparedStatement.executeQuery();

@@ -42,7 +42,7 @@ public class PostComment {
                         System.out.println("Connection Successful!");
                     }
                     PreparedStatement preparedStatement = conn.prepareStatement(
-                        "INSERT INTO comments (user_email, request_id, timestamp, message)"+
+                        "INSERT INTO Comment (user_email, request_id, timestamp, message)"+
                         "VALUES(?,?,?,?)");
                         preparedStatement.setString(1, userEmail);
                         preparedStatement.setInt(2, id);

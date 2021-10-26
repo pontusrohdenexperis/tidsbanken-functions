@@ -34,7 +34,7 @@ import java.util.Optional;
                         if(conn != null) {
                             System.out.println("Connection Successful!");
                         }
-                        PreparedStatement preparedStatement = conn.prepareStatement("UPDATE vacation_requests SET is_deleted = 1 WHERE id = ?");
+                        PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM VacationRequest WHERE id = ?");
                         preparedStatement.setInt(1, id);
                         preparedStatement.executeQuery();
                         message = "Request successfully deleted";

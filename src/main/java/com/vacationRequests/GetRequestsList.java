@@ -38,7 +38,7 @@ public class GetRequestsList {
                     if(conn != null) {
                         System.out.println("Connection Successful!");
                     }
-                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT TOP 50 * FROM vacation_requests WHERE is_deleted = 0");
+                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT TOP 50 * FROM VacationRequest WHERE is_deleted = 0");
                     
                     ResultSet resultSet = preparedStatement.executeQuery();
                     
@@ -48,8 +48,9 @@ public class GetRequestsList {
                             resultSet.getTimestamp("period_start"),
                             resultSet.getTimestamp("period_end"),
                             resultSet.getString("title"),
+                            resultSet.getString("owner_email"),
                             resultSet.getInt("request_status"),
-                            resultSet.getString("owner_email")
+                            resultSet.getString("moderator_email")
                         )
                         );
                     }

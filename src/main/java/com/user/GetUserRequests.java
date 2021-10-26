@@ -43,7 +43,7 @@ public class GetUserRequests {
                     if(conn != null) {
                         System.out.println("Connection Successful!");
                     }
-                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM vacation_requests WHERE owner_email = ?");
+                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM VacationRequests WHERE owner_email = ?");
                     preparedStatement.setString(1, email);
                     ResultSet resultSet = preparedStatement.executeQuery();
                     
@@ -53,8 +53,9 @@ public class GetUserRequests {
                             resultSet.getDate("period_start"),
                             resultSet.getDate("period_end"),
                             resultSet.getString("title"),
+                            resultSet.getString("owner_email"),
                             resultSet.getInt("request_status"),
-                            resultSet.getString("owner_email")
+                            resultSet.getString("moderator_email")
                             )
                         );
                     }

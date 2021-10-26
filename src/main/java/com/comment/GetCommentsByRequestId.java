@@ -40,7 +40,7 @@ public class GetCommentsByRequestId {
                     if(conn != null) {
                         System.out.println("Connection Successful!");
                     }
-                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM comments WHERE request_id = ?");
+                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Comment WHERE request_id = ?");
                     preparedStatement.setInt(1, id);
                     ResultSet resultSet = preparedStatement.executeQuery();
                     

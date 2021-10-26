@@ -42,7 +42,7 @@ public class PatchUser {
                         System.out.println("Connection Successful!");
                     }
                     PreparedStatement preparedStatement = conn.prepareStatement(
-                        "UPDATE users "+ 
+                        "UPDATE Users "+ 
                         "SET firstname = ?, lastname = ?, profile_pic = ?, is_admin = ? "+
                         "WHERE email = ?;");
                         preparedStatement.setString(1, firstname);

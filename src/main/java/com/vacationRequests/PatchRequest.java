@@ -43,7 +43,7 @@ public class PatchRequest {
                         System.out.println("Connection Successful!");
                     }
                     PreparedStatement preparedStatement = conn.prepareStatement(
-                        "UPDATE vacation_requests " +
+                        "UPDATE VacationRequest " +
                         "SET period_end = ?, period_start = ?, title = ?, request_status = ? "+
                         "WHERE owner_email = ?");
                     preparedStatement.setTimestamp(1, periodStart);

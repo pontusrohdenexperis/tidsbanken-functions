@@ -38,7 +38,7 @@ public class GetPeriod {
                     if(conn != null) {
                         System.out.println("Connection Successful!");
                     }
-                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM ineligible_period");
+                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM IneligiblePeriod");
                     
                     ResultSet resultSet = preparedStatement.executeQuery();
                     

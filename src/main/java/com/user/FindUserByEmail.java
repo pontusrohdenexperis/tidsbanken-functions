@@ -38,7 +38,7 @@ public class FindUserByEmail {
                     if(conn != null) {
                         System.out.println("Connection Successful!");
                     }
-                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT email FROM users WHERE email = ?");
+                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT email FROM Users WHERE email = ?");
                     preparedStatement.setString(1, email);
                     ResultSet resultSet =  preparedStatement.executeQuery();
                     if(resultSet.next()) {

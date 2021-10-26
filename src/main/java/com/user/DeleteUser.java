@@ -30,7 +30,7 @@ public class DeleteUser {
                     if(conn != null) {
                         System.out.println("Connection Successful!");
                     }
-                    PreparedStatement preparedStatement = conn.prepareStatement("UPDATE users SET is_deleted = 1 WHERE email = ?");
+                    PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM Users WHERE email = ?");
                     preparedStatement.setString(1, email);
                     preparedStatement.executeQuery();
                     message = "User is successfully deleted";

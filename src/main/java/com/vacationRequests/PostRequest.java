@@ -26,8 +26,9 @@ public class PostRequest {
                 @BindingName("periodStart") Timestamp periodStart,
                 @BindingName("periodEnd") Timestamp periodEnd,
                 @BindingName("title") String title,
+                @BindingName("ownerEmail") String ownerEmail,
                 @BindingName("requestStatus") int requestStatus,
-                @BindingName("ownerEmail") String ownerEmail
+                @BindingName("moderatorEmail") String moderatorEmail
                 //@BindingName("userPassword") int userPassword
                 ){
                     String Url = "jdbc:sqlserver://tidsbankenserver.database.windows.net:1433;DatabaseName=tidsbankenpostgres;";
@@ -43,13 +44,14 @@ public class PostRequest {
                         System.out.println("Connection Successful!");
                     }
                     PreparedStatement preparedStatement = conn.prepareStatement(
-                        "INSERT INTO vacation_requests (period_end, period_start, title, request_status, owner_email, is_deleted)"+
-                        "VALUES(?,?,?,?,?, 0)");
+                        "INSERT INTO VacationRequest (period_end, period_start, title, owner_email,request_status, moderator_email)"+
+                        "VALUES(?,?,?,?,?,?)");
                     preparedStatement.setTimestamp(1, periodStart);
                     preparedStatement.setTimestamp(2, periodEnd);
                     preparedStatement.setString(3, title);
-                    preparedStatement.setInt(4, requestStatus);
-                    preparedStatement.setString(5, ownerEmail);
+                    preparedStatement.setString(4, ownerEmail);
+                    preparedStatement.setInt(5, requestStatus);
+                    preparedStatement.setString(6, moderatorEmail);
                     preparedStatement.executeQuery();
                     message = "Request successfully added";
                     

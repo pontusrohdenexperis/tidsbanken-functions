@@ -39,7 +39,7 @@ public class GetPeriodById {
                     if(conn != null) {
                         System.out.println("Connection Successful!");
                     }
-                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM ineligible_period WHERE id = ?");
+                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM IneligiblePeriod WHERE id = ?");
                     preparedStatement.setInt(1, id);
                     ResultSet resultSet = preparedStatement.executeQuery();
                     

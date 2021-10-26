@@ -42,7 +42,7 @@ public class PostPeriod {
                         System.out.println("Connection Successful!");
                     }
                     PreparedStatement preparedStatement = conn.prepareStatement(
-                        "INSERT INTO ineligible_period (period_end, period_start, created_by)"+
+                        "INSERT INTO IneligiblePeriod (period_end, period_start, created_by)"+
                         "VALUES(?,?,?)");
                         preparedStatement.setTimestamp(1, periodEnd);
                         preparedStatement.setTimestamp(2, periodStart);

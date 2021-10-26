@@ -3,5 +3,22 @@
     "azureFunctions.projectLanguage": "Java",
     "azureFunctions.projectRuntime": "~3",
     "debug.internalConsoleOptions": "neverOpen",
-    "azureFunctions.preDeployTask": "package (functions)"
+    "azureFunctions.preDeployTask": "package (functions)",
+    "sqltools.connections": [
+        {
+            "mssqlOptions": {
+                "appName": "SQLTools",
+                "useUTC": true,
+                "encrypt": true
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 1433,
+            "askForPassword": true,
+            "driver": "MSSQL",
+            "name": "Tidsbanken",
+            "connectString": "Server=tcp:tidsbankenserver.database.windows.net,1433;Initial Catalog=tidsbankenpostgres;Persist Security Info=False;User ID=tidsbanken;Password=Experisgbg1337;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+        }
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

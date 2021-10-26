@@ -42,7 +42,7 @@ import java.util.Optional;
                         System.out.println("Connection Successful!");
                     }
                     PreparedStatement preparedStatement = conn.prepareStatement(
-                        "UPDATE ineligible_period " +
+                        "UPDATE IneligiblePeriod " +
                         "SET period_start = ?, period_end = ?, created_by = ? "+
                         "WHERE id = ?");
                     preparedStatement.setTimestamp(1, periodStart);

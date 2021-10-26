@@ -45,7 +45,7 @@ public class PatchComment {
                         System.out.println("Connection Successful!");
                     }
                     PreparedStatement preparedStatement = conn.prepareStatement(
-                        "UPDATE comments " +
+                        "UPDATE Comment " +
                         "SET user_email = ?, timestamp = ?, message = ? "+
                         "WHERE request_id = ? AND id = ?");
                     preparedStatement.setString(1, userEmail);
