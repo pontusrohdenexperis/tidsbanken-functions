@@ -1,7 +1,5 @@
 package models;
 
-//import com.vacationRequests.VacationRequests;
-
 public class User{
     
     private String email;
@@ -17,6 +15,13 @@ public class User{
         this.profilePic = profilePic;
         this.isAdmin = isAdmin;
     }
+    
+    public User( String firstname, String lastname, String profilePic) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.profilePic = profilePic;
+    }
+    
     public String getEmail() {
         return email;
     }

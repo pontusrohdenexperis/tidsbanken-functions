@@ -37,13 +37,6 @@ public class GetUser {
                 Connection conn = null;
                 User user = null;
                 AuthenticationInfo auth = new AuthenticationInfo(request);
-
-                if(auth.isValid()) {
-                    System.out.println(auth.getEmail());
-                    System.out.println(auth.isAdmin());
-                }else{
-                    System.out.println("Not valid!");
-                }
                 
                 try{
                     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -51,18 +44,32 @@ public class GetUser {
                     if(conn != null) {
                         System.out.println("Connection Successful!");
                     }
-                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Users WHERE email = ?");
-                    preparedStatement.setString(1, email);
-                    ResultSet resultSet = preparedStatement.executeQuery();
-                    
-                    while(resultSet.next()){
-                        user = new User(
-                            resultSet.getString("email"),
-                            resultSet.getString("firstname"),
-                            resultSet.getString("lastname"),
-                            resultSet.getString("profile_pic"),
-                            resultSet.getBoolean("is_admin")
-                        );
+                    if(auth.isAdmin() || auth.getEmail().equals(email)) {
+                        PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Users WHERE email = ?");
+                        preparedStatement.setString(1, email);
+                        ResultSet resultSet = preparedStatement.executeQuery();
+
+                            while(resultSet.next()){
+                                user = new User(
+                                    resultSet.getString("email"),
+                                    resultSet.getString("firstname"),
+                                    resultSet.getString("lastname"),
+                                    resultSet.getString("profile_pic"),
+                                    resultSet.getBoolean("is_admin")
+                                );
+                            }
+                    }else {
+                        PreparedStatement preparedStatement = conn.prepareStatement("SELECT firstname, lastname, profile_pic FROM Users WHERE email = ?");
+                        preparedStatement.setString(1, email);
+                        ResultSet resultSet = preparedStatement.executeQuery();
+
+                            while(resultSet.next()){
+                                user = new User(
+                                    resultSet.getString("firstname"),
+                                    resultSet.getString("lastname"),
+                                    resultSet.getString("profile_pic")
+                                );
+                            }
                     }
                 }catch(Exception e) {
                     e.printStackTrace();

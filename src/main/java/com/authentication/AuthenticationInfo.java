@@ -24,7 +24,6 @@ public class AuthenticationInfo {
             isValid = false;
             return;
         }
-        
         String[] chunks = request.getHeaders().get("token").split("\\.");
         
         Base64.Decoder decoder = Base64.getDecoder();
@@ -35,10 +34,9 @@ public class AuthenticationInfo {
         JSONParser parser = new JSONParser();
         jsonPayload = (JSONObject) parser.parse(payload);
 
-
         JSONObject realmAccess = (JSONObject)jsonPayload.get("realm_access");
         ArrayList<String> temp = (ArrayList<String>) realmAccess.get("roles");
-        this.isAdmin = temp.get(0).equals("app-admin");
+        this.isAdmin = temp.get(0).equals("admin");
         this.email = (String)jsonPayload.get("email");
         this.isValid = true;
     }

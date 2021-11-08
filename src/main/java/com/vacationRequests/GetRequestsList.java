@@ -38,7 +38,7 @@ public class GetRequestsList {
                     if(conn != null) {
                         System.out.println("Connection Successful!");
                     }
-                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT TOP 50 * FROM VacationRequest WHERE is_deleted = 0");
+                    PreparedStatement preparedStatement = conn.prepareStatement("SELECT TOP 50 * FROM VacationRequest");
                     
                     ResultSet resultSet = preparedStatement.executeQuery();
                     
